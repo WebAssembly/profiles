@@ -142,7 +142,7 @@ Finally, the "full" profile encompassing all features and behaviours would simpl
 
 ## Included Profiles
 
-While this proposal is mainly meant to define the necessary spec infrastructure, it makes sense to include at least two profiles already.
+While this proposal is mainly meant to define the necessary spec infrastructure, it makes sense to include at least three profiles already.
 This is both to provide some precedence for use of the infrastructure, and because the respective features are already part of the spec with some pressure to support them:
 
 1. Full profile
