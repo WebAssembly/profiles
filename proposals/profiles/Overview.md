@@ -29,6 +29,8 @@ It hence is inevitable that some ecosystems will only support certain subsets of
 In order to maximise portability in the face of this, the standard must not ignore ecosystem diversity.
 Instead, it ought to embrace it by defining a suitable set of language _profiles_ that the creators of an ecosystem can choose from.
 
+(The choice of name is inspired by [Java Profiles](https://www.oracle.com/technical-resources/articles/java/architect-profiles.html).)
+
 Where possible, an ecosystem should support the full language (e.g., the Web).
 However, where it can't, standardised profiles provide two major advantages:
 
@@ -147,11 +149,19 @@ This is both to provide some precedence for use of the infrastructure, and becau
 Details to be fleshed out, but should be uncontroversial.
 
 
-## Questions
+## Remarks and Questions
+
+* What is the relation to feature testing?
+
+  - Feature testing typically is a relatively fine-grained and _intra-ecosystem_ problem, where each implementation may differ in support for new features at a given point in time. In contrast, profiles are coarse-grained and only ought to differ _inter-ecosystem_, i.e., in a given ecosystem it is fixed and prescribed globally for all implementations, so that testing for it is not useful.
 
 * What are suitable profiles and criteria for introducing new profiles?
 
   - This question is mainly deferred to future proposals and the discretion of future CG discussions; evaluating the need for new profiles associated with a feature proposal could become part of the process document.
+
+* Profile markers are the negation of what's in an actual profile, which may be slighlty confusing, but seems difficult to avoid.
+
+  - Maybe rename to "feature markers"? But we want to avoid confusion with feature testing and versioning, which is a different feature.
 
 * How should profiles be handled in the reference interpreter?
 
@@ -160,6 +170,10 @@ Details to be fleshed out, but should be uncontroversial.
 * How should profiles be handled in the test suite?
 
   - It may be desirable to organise the test suite according to profile markers, i.e., have a sub directory corresponding to each profile marker (as is already the case with SIMD) and allow the runner to select which ones to execute.
+
+* How are APIs affected, e.g., the JS API?
+
+  - They might potentially annotate profile markers as well, e.g., certain API functions might be absent under a given profile.
 
 * How are other tools affected?
 
