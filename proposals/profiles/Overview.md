@@ -153,7 +153,7 @@ Details to be fleshed out, but should be uncontroversial.
 
 * What is the relation to feature testing?
 
-  - Feature testing typically is a relatively fine-grained and _intra-ecosystem_ problem, where each implementation may differ in support for new features at a given point in time. In contrast, profiles are coarse-grained and only ought to differ _inter-ecosystem_, i.e., in a given ecosystem it is fixed and prescribed globally for all implementations, so that testing for it is not useful.
+  - Feature testing typically is a relatively fine-grained and _intra-ecosystem_ problem, where each implementation may differ in support for new features at a given point in time. In contrast, profiles are coarse-grained and only ought to differ _inter-ecosystem_, i.e., in a given ecosystem it is fixed and prescribed globally for all implementations, so that testing for it is not useful. Both mechanisms would hence be complementary.
 
 * What are suitable profiles and criteria for introducing new profiles?
 
