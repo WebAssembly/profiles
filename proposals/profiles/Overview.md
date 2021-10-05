@@ -59,7 +59,7 @@ The proposal supports two main flavours of language subsetting:
 
 * _Omitting_ a feature, in which case certain constructs are removed from the _syntax_ altogether.
 
-* _Restricting_ a feature, in which case certain constructs are still present but their execution behaviours or validation rules are constrained.
+* _Restricting_ a feature, in which case certain constructs are still present but certain behaviours are omitted.
 
 In either case, the modification is specified by annotating respective rules in the specification – either grammar rules in former case, or execution/validation rules in the latter – with a marker that defines them as "conditional" on a profile.
 
@@ -137,14 +137,17 @@ For each definition, it ought to include a brief explanation and short informal 
 
 An implementation could declare itself as supporting only a "deterministic and scalar" profile, meaning that it only provides the intersection of the two. Technically, this would be equivalent to `{N,T,V,Vr}`.
 
+Finally, the "full" profile encompassing all features and behaviours would simply be defined by the set `{}`.
+
 
 ## Included Profiles
 
 While this proposal is mainly meant to define the necessary spec infrastructure, it makes sense to include at least two profiles already.
 This is both to provide some precedence for use of the infrastructure, and because the respective features are already part of the spec with some pressure to support them:
 
-1. Deterministic profile (excluding non-deterministic behaviour)
-2. Scalar profile (excluding vector types and instructions)
+1. Full profile
+2. Deterministic profile (excluding non-deterministic behaviour)
+3. Scalar profile (excluding vector types and instructions)
 
 Details to be fleshed out, but should be uncontroversial.
 
