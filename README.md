@@ -1,4 +1,17 @@
-![Build Status](https://github.com/WebAssembly/spec/actions/workflows/main.yml/badge.svg)
+![Build Status](https://github.com/WebAssembly/profiles/actions/workflows/main.yml/badge.svg)
+
+# Profiles Proposal for WebAssembly
+
+This repository is a clone of [github.com/WebAssembly/spec/](https://github.com/WebAssembly/spec/).
+It is meant for discussion, prototype specification and implementation of a proposal to
+add support for <<Feature Description>> to WebAssembly.
+
+* See the [overview](proposals/profiles/Overview.md) for a summary of the proposal.
+
+* See the [modified spec](https://webassembly.github.io/profiles/) for details (TODO).
+
+Original `README` from upstream repository follows...
+
 
 # spec
 
