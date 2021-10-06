@@ -78,7 +78,7 @@ Part (1) and (3) will be part of a new Appendix section. Part (2) is applied thr
 
 ### Profile Markers
 
-A _profile marker_ is an alphanumeric token identifying a feature set.
+In the language specification, a _profile marker_ is an alphanumeric token identifying a feature set.
 To avoid cluttering rules too much, and since we expect only few of these markers to exist, they are preferred to be one or two letters only.
 
 *Example:* `N` could be used as the marker for the non-deterministic constructs or rules, `T` for threading, `V` for vector instructions (a.k.a. SIMD), etc. `Vr` could be used for the more specific set of relaxed vector instructions (which would be included in the general vector profile).
@@ -112,11 +112,11 @@ For example, imagine there was an instruction `v128.atomic.load` – it would ha
 
 ### Rule Annotations
 
-To restrict certain behaviours in profile, rules from the execution semantics are annotated with an associated marker.
+To restrict certain behaviours in a profile, rules from the execution semantics are annotated with an associated marker.
 
 This has the simple consequence that the rule is no longer applicable under a respective profile.
 
-*Example:* Consider non-determinism. To define a "deterministic" profile, it is necessary to restrict the choice of NaNs for floating point instructions. This can be achieved by introducing an overlapping rule that normalised NaNs by picking a defined representative from the result set:
+*Example:* Consider non-determinism. To define a "deterministic" profile, it is necessary to restrict the choice of NaNs for floating point instructions. This can be achieved by introducing a rule that normalises NaNs by picking a defined representative from the result set:
 ```
 [N] (t.const c1) (t.const c2) t.binop  ~~>  (t.const c)  (iff c in binop_t(c1,c2))
     (t.const c1) (t.const c2) t.binop  ~~>  (t.const c)  (iff c = norm(binop_t(c1,c2)))
@@ -128,16 +128,16 @@ Otherwise, both rules overlap, which means that normalisation does not need to h
 
 ### Profile Definitions
 
-Finally, a profile is defined as a set of markers. The effect is that in the respective profile, all rules annotated with _any_ of the markers are excluded, i.e., the profile is the result of _intersecting_ the language subsets defined by each marker.
+Finally, a profile is defined by a set of markers. The effect is that in the respective profile, all rules annotated with _any_ of the markers are excluded, i.e., the profile is the result of _intersecting_ the language subsets defined by each marker.
 
 Profile definitions are meant to occur in the Appendix of the spec document.
 For each definition, it ought to include a brief explanation and short informal summary of the omissions and restrictions.
 
 *Example:* The "determinitic" profile could be defined as `{N,T,Vr}`, ruling out both threading, primitive non-deterministic behaviour, and relaxed vector instructions. Similarly, a "scalar" profile would be `{V,Vr}`, omitting any vector instructions.
 
-An implementation could declare itself as supporting only a "deterministic and scalar" profile, meaning that it only provides the intersection of the two. Technically, this would be equivalent to `{N,T,V,Vr}`.
+An implementation could declare itself as supporting only a "deterministic and scalar" profile, meaning that it only provides the intersection of the two profiles. Technically, this would be equivalent to a profile defined as `{N,T,V,Vr}`.
 
-Finally, the "full" profile encompassing all features and behaviours would simply be defined by the set `{}`.
+Finally, the "full" profile encompassing all features and behaviours would simply be defined by the empty marker set `{}`.
 
 
 ## Included Profiles
