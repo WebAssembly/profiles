@@ -73,7 +73,13 @@ More concretely, defining a profile consists of three ingredients:
 
 Part (1) and (3) will be part of a new Appendix section. Part (2) is applied throughout the main body of the spec.
 
-**Note:** This approach is intentionally designed to only support _restricting_ the language. A language subset is not allowed to _modify_ the language in the sense of introducing dialects with new syntax or alternative behaviours!
+**Notes:**
+
+(1) This approach is intentionally designed to only support _restricting_ the language. A language subset is not allowed to _modify_ the language in the sense of introducing dialects with new syntax or alternative behaviours!
+
+(2) Profiles are intended to be chosen _globally_ by an ecosystem. They are not meant to be selectable by individual producers.
+
+(3) Producers should view them solely as _restrictions_ to cope with, not as _guarantees_ to programmatically depend on (e.g., the absence of certain behaviours). This is so that (a) their code stays correct under any less restricted profile, and (b) their ecosystem remains free to extend its profile at a later point in time.
 
 
 ### Profile Markers
