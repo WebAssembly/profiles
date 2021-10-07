@@ -69,7 +69,7 @@ More concretely, defining a profile consists of three ingredients:
 
 2. Annotating the rules _excluded_ in the profile with this marker.
 
-3. Specificying the profile as a set of markers (a profile may be the intersection of multiple markers, enabling more modularity or the ability to define profiles derived from others).
+3. Specifying the profile as a set of markers (a profile may be the intersection of multiple markers, enabling more modularity or the ability to define profiles derived from others).
 
 Part (1) and (3) will be part of a new Appendix section. Part (2) is applied throughout the main body of the spec.
 
