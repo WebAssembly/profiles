@@ -51,6 +51,33 @@ For example, with respect to current Wasm as well as ongoing proposal work, the 
 In each case, a related profile is expected to affect all instructions and constructs associated with a respective feature.
 
 
+#### Goals
+
+1. *Well-specified subsets.* Provide new Wasm ecosystems that cannot support the full language with suitable subsets, which would otherwise be forced to invent them on their own.
+
+2. *Minimised fragmentation.* Maximise compatibility between across diverse ecosystems by aligning them and keeping the number of profiles to a minimum. (Also, minimise complexity and test matrix for engines or tools that want to be configurable for multiple profiles.)
+
+3. *Durability.* The set of available profiles should remain fairly stable over time, such that ecosystems rarely if ever need to reconsider their choice.
+
+
+#### Non-Goals
+
+1. *Versioning.* Profiles are _not_ intended to distinguish new vs old versions of the language – that is an independent dimension for which we already have have version numbers. Rather, we fully expect that new versions of the language will extend existing profiles. Profiles are meant to codify _permanent_ use case distinctions, not temporary implementation deviations.
+
+2. *Feature detection.* Profiles are directed at ecosystem creators, not users of the language. While it may make sense to provide programmatic means for certain applications to become portable even across incompatible ecosystems, such means are outside the scope of this proposal.
+
+3. *Alternate semantics.* Profiles can only _restrict_ the language, they are never intended to _change_ it, e.g., by introducing alternative features or alternative behaviours. Language changes would introduce significantly larger complications for ecosystems, implementations, and users. In particular, they would preclude the existence of a "full profile" that includes everything, and targetting which allows implementations to remain profile-agnostic.
+
+
+#### Risks
+
+1. *Profile inflation*. As stated above, it is a goal of profiles to _minimise_ fragmentation. For that purpose, the number of specified profiles should be as small as possible – a handful rather than a dozen. While it could be tempting to introduce micro-profiles for all sorts of special purposes, that temptation must be avoided. The goal is coarse not fine granularity.
+
+2. *Misfeature white-washing.* Blessing the notion of language subsets may reduce the scruples against introducing questionable features into Wasm, because those could be "barred" into a profile. Such an approach would still increase fragmentation as well as aversely affecting the overall complexity budget and reputation of the language.
+
+3. *Abuse.* It may also be tempting to apply the concept of profiles to scenarios it is not intended for, such as versioning. That would harm their purpose and create conflict with the stated goals.
+
+
 ## Proposal
 
 This proposal primarily is about adding suitable "specification infrastructure" to enable formally specifying profiles, rather than creating a multitude of profiles already.
