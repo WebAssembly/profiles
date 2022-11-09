@@ -11,7 +11,7 @@ Wasm is currently defined as one monolithic language with a fixed prescribed sem
 This is meant to provide maximum portability, even across unrelated ecosystems that Wasm is employed in.
 
 However, different ecosystems tend to have different requirements and constraints.
-With Wasm growing new features and complexity, not all of them are equally well served.
+With Wasm growing new features and more complexity, not all of them are equally well served.
 For example:
 
 * Blockchain ecosystem require deterministic execution and hence cannot use threads or floats in their vanilla form.
@@ -25,9 +25,10 @@ For example:
 Each of the major feature additions proposed for Wasm do not only increases the complexity and size of engines, they also make toolchains more complex, which may differ between ecosystems.
 
 It hence is inevitable that some ecosystems will only support certain subsets of Wasm.
+We are already seeing such a development with respect to determinism and SIMD.
 
-In order to maximise portability in the face of this, the standard must not ignore ecosystem diversity.
-Instead, it ought to embrace it by defining a suitable set of language _profiles_ that the creators of an ecosystem can choose from.
+In order to maximise portability in the face of this, the standard must not ignore *ecosystem diversity*.
+Instead, it ought to _embrace_ it by defining a suitable set of language _profiles_ that the creators of an ecosystem can choose from.
 
 (The choice of name is inspired by [Java Profiles](https://www.oracle.com/technical-resources/articles/java/architect-profiles.html).)
 
@@ -41,11 +42,11 @@ However, where it can't, standardised profiles provide two major advantages:
 To that end, the goal is that profiles should be _coarse-grained_, organised around _very few_, coherent feature sets and desired properties, rather than many individual instructions.
 For example, with respect to current Wasm as well as ongoing proposal work, the following features are conceivable targets for profile restrictions:
 
+* Non-determinism
 * Threads
 * Vector types (SIMD)
-* Stack switching
 * GC
-* Non-determinism
+* Stack switching
 
 In each case, a related profile is expected to affect all instructions and constructs associated with a respective feature.
 
@@ -53,15 +54,15 @@ In each case, a related profile is expected to affect all instructions and const
 ## Proposal
 
 This proposal primarily is about adding suitable "specification infrastructure" to enable formally specifying profiles, rather than creating a multitude of profiles already.
-We expect most profiles to be introduced as separate proposals, or as part of other feature proposals (see [below](#included-profiles) for exceptions).
+We expect most profiles to be introduced as separate proposals, or as part of other feature proposals (see [below](#initial-profiles) for exceptions).
 
 The proposal supports two main flavours of language subsetting:
 
-* _Omitting_ a feature, in which case certain constructs are removed from the _syntax_ altogether.
+* _Syntactic_, by _omitting_ a feature, in which case certain constructs are removed from the syntax altogether.
 
-* _Restricting_ a feature, in which case certain constructs are still present but certain behaviours are omitted.
+* _Semantic_, by _restricting_ a feature, in which case certain constructs are still present but some behaviours are ruled out.
 
-In either case, the modification is specified by annotating respective rules in the specification – either grammar rules in former case, or execution/validation rules in the latter – with a marker that defines them as "conditional" on a profile.
+In either case, the modification is specified by annotating respective rules in the specification – either grammar rules in the former case, or execution/validation rules in the latter – with a marker that defines them as "conditional" on a profile.
 
 More concretely, defining a profile consists of three ingredients:
 
@@ -69,7 +70,7 @@ More concretely, defining a profile consists of three ingredients:
 
 2. Annotating the rules _excluded_ in the profile with this marker.
 
-3. Specifying the profile as a set of markers (a profile may be the intersection of multiple markers, enabling more modularity or the ability to define profiles derived from others).
+3. Specificying the profile as a set of markers (a profile may be the intersection of multiple markers, enabling more modularity or the ability to define profiles derived from others).
 
 Part (1) and (3) will be part of a new Appendix section. Part (2) is applied throughout the main body of the spec.
 
@@ -87,7 +88,7 @@ Part (1) and (3) will be part of a new Appendix section. Part (2) is applied thr
 In the language specification, a _profile marker_ is an alphanumeric token identifying a feature set.
 To avoid cluttering rules too much, and since we expect only few of these markers to exist, they are preferred to be one or two letters only.
 
-*Example:* `N` could be used as the marker for the non-deterministic constructs or rules, `T` for threading, `V` for vector instructions (a.k.a. SIMD), etc. `Vr` could be used for the more specific set of relaxed vector instructions (which would be included in the general vector profile).
+*Example:* `N` could be used as the marker for the non-deterministic constructs or rules, `T` for threading, `V` for vector instructions (a.k.a. SIMD), etc.
 
 
 ### Grammar Annotations
@@ -106,14 +107,15 @@ The overall effect is that the respective construct is no longer part of the lan
 ```
     instr ::= ...
 [T]        |  memory.atomic.notify memarg
-[T]        |  memory.atomicwatnn memarg
+[T]        |  memory.atomic.wait memarg
 [T]        |  inn.atomic.load memarg
 [T]        |  inn.atomic.store memarg
       ... (and so on)
 ```
 
-A rule may be annotated by multiple markers, which e.g. might be the case if a construct is in the intersection of multiple features, and is omitted if either of the features is.
-For example, imagine there was an instruction `v128.atomic.load` – it would have to be marked `[T V]`.
+A rule may be annotated by multiple markers, which e.g. might be the case if a construct is in the intersection of multiple features. The rule is then omitted if either of the features is.
+
+*Example:* Imagine there was an instruction `v128.atomic.load` – it would have to be marked `[T V]`.
 
 
 ### Rule Annotations
@@ -139,42 +141,42 @@ Finally, a profile is defined by a set of markers. The effect is that in the res
 Profile definitions are meant to occur in the Appendix of the spec document.
 For each definition, it ought to include a brief explanation and short informal summary of the omissions and restrictions.
 
-*Example:* The "determinitic" profile could be defined as `{N,T,Vr}`, ruling out both threading, primitive non-deterministic behaviour, and relaxed vector instructions. Similarly, a "scalar" profile would be `{V,Vr}`, omitting any vector instructions.
+*Example:* The "determinitic" profile could be defined as `{N,T}`, ruling out both threading and primitive non-deterministic behaviour. Similarly, a "scalar" profile would be `{V}`, omitting any vector instructions.
 
-An implementation could declare itself as supporting only a "deterministic and scalar" profile, meaning that it only provides the intersection of the two profiles. Technically, this would be equivalent to a profile defined as `{N,T,V,Vr}`.
+An implementation could declare itself as supporting only a "deterministic and scalar" profile, meaning that it only provides the intersection of the two profiles. Technically, this would be equivalent to a profile defined as `{N,T,V}`.
 
 Finally, the "full" profile encompassing all features and behaviours would simply be defined by the empty marker set `{}`.
 
 
-## Included Profiles
+## Initial Profiles
 
-While this proposal is mainly meant to define the necessary spec infrastructure, it makes sense to include at least three profiles already.
-This is both to provide some precedence for use of the infrastructure, and because the respective features are already part of the spec with some pressure to support them:
+While this proposal is mainly meant to define the necessary spec infrastructure, it is practically motivated by including a few relevant profiles already.
+This is both to provide some precedence for use of the infrastructure, and because the respective features are already part of the spec with some pressure to support profiles handling them:
 
 1. Full profile
 2. Deterministic profile (excluding non-deterministic behaviour)
 3. Scalar profile (excluding vector types and instructions)
 
-Details to be fleshed out, but should be uncontroversial.
+Details to be fleshed out, but we expect them to be uncontroversial.
 
 
-## Remarks and Questions
+## Questions and Answers
 
 * What is the relation to feature testing?
 
-  - Feature testing typically is a relatively fine-grained and _intra-ecosystem_ problem, where each implementation may differ in support for new features at a given point in time. In contrast, profiles are coarse-grained and only ought to differ _inter-ecosystem_, i.e., in a given ecosystem it is fixed and prescribed globally for all implementations, so that testing for it is not useful. Both mechanisms would hence be complementary.
+  - Feature testing typically is a relatively fine-grained and _intra-ecosystem_ problem, where each implementation may differ in support for new features at a given point in time, usually related to versioning. In contrast, profiles are coarse-grained and only ought to differ _inter-ecosystem_, i.e., in a given ecosystem it is fixed and prescribed globally for all implementations, so that testing for it is not useful. Both mechanisms would hence be mostly complementary.
 
 * What are suitable profiles and criteria for introducing new profiles?
 
   - This question is mainly deferred to future proposals and the discretion of future CG discussions; evaluating the need for new profiles associated with a feature proposal could become part of the process document.
 
-* Profile markers are the negation of what's in an actual profile, which may be slighlty confusing, but seems difficult to avoid.
+* Profile markers are the negation of what's in an actual profile, which may be slighlty confusing.
 
-  - Maybe rename to "feature markers"? But we want to avoid confusion with feature testing and versioning, which is a different feature.
+  - This seems difficult to avoid. Maybe rename to "feature markers"? But we want to prevent confusion with feature testing and versioning, which is a different feature.
 
 * How should profiles be handled in the reference interpreter?
 
-  - The interpreter probably requires flags for selecting profiles; the same might be true for similar tools like wabt.
+  - The interpreter should introduce flags for selecting profiles; the same might be true for similar tools like wabt.
 
 * How should profiles be handled in the test suite?
 
@@ -186,4 +188,4 @@ Details to be fleshed out, but should be uncontroversial.
 
 * How are other tools affected?
 
-  - In general, each toolchain has to define and document which (intersection of) profile(s) it supports. For most tools, it is expected that they continue to support the full language, in which case they do not need to care about profiles (because profiles can only restrict, not modify behaviour!). 
+  - In general, each toolchain has to define and document which (intersection of) profile(s) it supports. For most tools, it is expected that they continue to support the full language, in which case they do not need to care about profiles (because profiles can only restrict, not modify behaviour). Some tools (e.g., optimisers) may choose to make their target profile configurable.
