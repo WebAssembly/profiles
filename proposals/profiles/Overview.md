@@ -55,7 +55,7 @@ In each case, a related profile is expected to affect all instructions and const
 
 1. *Well-specified subsets.* Provide new Wasm ecosystems that cannot support the full language with suitable subsets, which would otherwise be forced to invent them on their own.
 
-2. *Minimised fragmentation.* Maximise compatibility between across diverse ecosystems by aligning them and keeping the number of profiles to a minimum. (Also, minimise complexity and test matrix for engines or tools that want to be configurable for multiple profiles.)
+2. *Minimised fragmentation.* Maximise compatibility across diverse ecosystems by aligning them and keeping the number of profiles to a minimum. (Also, minimise complexity and test matrix for engines or tools that want to be configurable for multiple profiles.)
 
 3. *Durability.* The set of available profiles should remain fairly stable over time, such that ecosystems rarely if ever need to reconsider their choice.
 
@@ -73,9 +73,9 @@ In each case, a related profile is expected to affect all instructions and const
 
 1. *Profile inflation*. As stated above, it is a goal of profiles to _minimise_ fragmentation. For that purpose, the number of specified profiles should be as small as possible – a handful rather than a dozen. While it could be tempting to introduce micro-profiles for all sorts of special purposes, that temptation must be avoided. The goal is coarse not fine granularity.
 
-2. *Misfeature white-washing.* Blessing the notion of language subsets may reduce the scruples against introducing questionable features into Wasm, because those could be "barred" into a profile. Such an approach would still increase fragmentation as well as aversely affecting the overall complexity budget and reputation of the language.
+2. *Short-cutting.* Blessing the notion of language subsets may reduce the perceived need for scrutiny or consensus-building when adding new features, because those could be "whitewashed" by "barring" them into a profile. Such an approach would still increase fragmentation, adversely affect the complexity budget of the language, and could harm its overall integrity as well as reputation.
 
-3. *Abuse.* It may also be tempting to apply the concept of profiles to scenarios it is not intended for, such as versioning. That would harm their purpose and create conflict with the stated goals.
+3. *Abuse.* It may also be tempting to apply the concept of profiles to scenarios it is not intended for, such as versioning. That would harm the purpose and create conflict with stated goals such as durability and minimised fragmentation.
 
 
 ## Proposal
