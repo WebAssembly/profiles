@@ -73,9 +73,24 @@ In each case, a related profile is expected to affect all instructions and const
 
 1. *Profile inflation*. As stated above, it is a goal of profiles to _minimise_ fragmentation. For that purpose, the number of specified profiles should be as small as possible – a handful rather than a dozen. While it could be tempting to introduce micro-profiles for all sorts of special purposes, that temptation must be avoided. The goal is coarse not fine granularity.
 
-2. *Short-cutting.* Blessing the notion of language subsets may reduce the perceived need for scrutiny or consensus-building when adding new features, because those could be "whitewashed" by "barring" them into a profile. Such an approach would still increase fragmentation, adversely affect the complexity budget of the language, and could harm its overall integrity as well as reputation.
+2. *Short-cutting.* Blessing the notion of language subsets may reduce the perceived need for scrutiny or consensus-building when adding new features, because even questionable ones could be "whitewashed" by "barring" them into a profile. Such an approach would still increase fragmentation, adversely affect the complexity budget of the language, and could harm its overall integrity as well as reputation.
 
 3. *Abuse.* It may also be tempting to apply the concept of profiles to scenarios it is not intended for, such as versioning. That would harm the purpose and create conflict with stated goals such as durability and minimised fragmentation.
+
+4. *Over-optimistic assumptions.* Producers may assume that certain invariants that happen to be true for a profile they target hold in general. This may lead to incorrect behaviour of their code when run in more general environments. In general, producers should always assume the presence of the full language, even if they merely target a subset profile.
+
+
+#### Intended Properties
+
+* There exists a *full* profile, and other profiles may only present syntactic or semantic subsets of this profile, not alter behaviour. (A semantic subset is one that has fewer possible behaviours.)
+
+* All profiles should be mutually compatible and composable. No two profiles should subset semantic behaviour in inconsistent ways (e.g., such that the intersection of their behaviours ends up empty in some places).
+
+* Profiles should only be included in the standard for sufficiently broad use cases. The number of profiles should remain single digit.
+
+* Unless a tool is specific to a platform with a restricted profile, producing code for the full profile should be the default for typical tools, and more specific choices should be explicitly requested.
+
+* Runtime conditioning on the "current" profile should be avoided, both at the language level, and at the toolchain and platform level; users should pick a target profile at produce-time, and know at deploy-time which profile their code will run on.
 
 
 ## Proposal
