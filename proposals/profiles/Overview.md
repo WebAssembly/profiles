@@ -92,6 +92,8 @@ In each case, a related profile is expected to affect all instructions and const
 
 * Runtime conditioning on the "current" profile should be avoided, both at the language level, and at the toolchain and platform level; users should pick a target profile at produce-time, and know at deploy-time which profile their code will run on.
 
+* Proposals adding non-trivial functionality to the language should consider profile opt-outs for existing Wasm ecosystems that cannot implement it.
+
 
 ## Proposal
 
