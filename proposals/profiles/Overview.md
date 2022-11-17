@@ -77,7 +77,7 @@ In each case, a related profile is expected to affect all instructions and const
 
 3. *Abuse.* It may also be tempting to apply the concept of profiles to scenarios it is not intended for, such as versioning. That would harm the purpose and create conflict with stated goals such as durability and minimised fragmentation.
 
-4. *Over-optimistic assumptions.* Producers may assume that certain invariants that happen to be true for a profile they target hold in general. This may lead to incorrect behaviour of their code when run in more general environments. In general, producers should always assume the presence of the full language, even if they merely target a subset profile.
+4. *False assumptions.* Producers may assume that certain invariants that happen to be true for a profile they target hold in general. This may lead to incorrect behaviour of their code when run in more general environments. In general, producers should always assume the presence of the full language, even if they merely target a subset profile.
 
 
 #### Intended Properties
