@@ -108,6 +108,16 @@
 .. |bigcompose| mathdef:: \xref{syntax/conventions}{notation-compose}{\bigoplus}
 
 
+.. Notation for Profiles
+
+.. |exprofiles#1| mathdef:: {^{\small{[!#1]}}}
+.. |profilename#1| mathdef:: {\small{\mathrm{#1}}}
+.. |profile| mathdef:: \mathrm
+
+.. |PROFFULL| mathdef:: \xref{appendix/profiles}{profile-full}{\profile{FUL}}
+.. |PROFDET| mathdef:: \xref{appendix/profiles}{profile-deterministic}{\profile{DET}}
+
+
 
 .. Abstract Syntax
 .. ---------------

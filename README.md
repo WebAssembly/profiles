@@ -8,7 +8,7 @@ add support for <<Feature Description>> to WebAssembly.
 
 * See the [overview](proposals/profiles/Overview.md) for a summary of the proposal.
 
-* See the [modified spec](https://webassembly.github.io/profiles/) for details (TODO).
+* See the [modified spec](https://webassembly.github.io/profiles/) for details.
 
 Original `README` from upstream repository follows...
 
